@@ -1,0 +1,128 @@
+<script src="/js/qr/qrcode.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script> 
+<body>
+    <!-- Sidenav -->
+    <% include ../vpartials/sidebar %>
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Top navbar -->
+      <% include ../vpartials/navbar %>
+      <!-- Header -->
+      <% include ../vpartials/header2 %>
+      <!-- Page content -->
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow border-0">
+                <div>
+                
+                  <h1 style="padding: 10px;">Uploader document</h1>
+                  <form action="/uploadsign" method="post" enctype="multipart/form-data"> 
+                    
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Voulez vous rendre votre document accessible aux vérificateurs lors de sa vérification sur Sinely ?</label>
+                          
+<br>
+                          <label class="custom-toggle">
+                            <input type="checkbox" checked id="privacy" name="privacy">
+                            <span class="custom-toggle-slider rounded-circle " data-label-off="Non" data-label-on="Oui" style="color:blue;"></span>
+                        </label>
+                        </div>
+                        <div class="form-group">
+                        
+                          <small>Taille du document doit être inférieure à 10 Mo</small>
+
+                           <div class="input-group mb-3">
+                             
+                            <input class="form-control" placeholder="Document à signer" type="file" name="filetosign"  id="filetosign" 
+                            accept=".bmp, .doc, .pdf, .docx, .txt, .jpeg, .png, .jpg, .xls,.xlsx"
+                            required>
+                            <div class="input-group-append">
+                              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                            </div>
+
+                          </div>
+                          <div class="input-group mb-3">
+                            <textarea class="form-control"  maxlength="255" id="description" rows="3" placeholder="Brève description de votre document" name="description"></textarea>                            
+                            
+                          </div>
+                          <button class="btn btn-icon btn-3 btn-success"   type="submit" onclick="checkfile()">
+                            <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+                          
+                              <span class="btn-inner--text">Uploader</span>
+                          
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </form>
+                  
+              
+                      
+                    </div>          
+              
+                  </div>
+
+
+                </div> 
+
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- Footer -->
+        <% include ../vpartials/footer %>
+      </div>
+    </div>
+
+
+    <!-- Include scripts -->
+    <% include ../vpartials/scripts %>
+    <script>
+  $('#button').click(function () {
+    $("input[type='file']").trigger('click');
+})
+$('#filetosign').on('change', function() {
+  let file = document.getElementById("filetosign");
+    
+ var numb = $(this)[0].files[0].size/1024/1024;
+numb = numb.toFixed(2);
+var filePath=$(this).val();
+console.log(filePath);
+
+let splitedPath = filePath.split('/');
+let ext = splitedPath[splitedPath.length -1 ].split('.');
+if(ext[ext.length -1] !== 'pdf')
+{
+  alert('file selected not a pdf');
+  file.value = file.defaultValue;
+}
+
+if(numb > 10){
+alert('Le fichier chargé dépasse la limite de 10 Mega');
+
+    file.value = file.defaultValue;
+}   
+else{
+ 
+}
+   });
+ 
+</script>
+<% if (locals.messages && locals.messages.success ) { %>
+  <script type="text/javascript">
+                      $(window).on('load', function() {
+                          $('#canvasModal').modal('show');
+                      });
+
+                  </script>
+
+
+                      <% } %>
+  </body>
+  
