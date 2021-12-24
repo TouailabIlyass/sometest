@@ -1,7 +1,11 @@
-pragma solidity >=0.4.22 <0.7.0;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity >=0.7.0 <0.9.0;
 
+//import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Stock {
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+
+contract StockContract is ERC721URIStorage {
     
     address private _owner;
     uint256 private stocksLength;
@@ -11,6 +15,7 @@ contract Stock {
         require(msg.sender == _owner);
         _;
     }
+
     
     struct Stock{
         string stockId;
@@ -30,17 +35,26 @@ contract Stock {
     
     event TransferStock(string  from, string  to, string stockId);
     
-    constructor()
-        public {
+    constructor(string memory _name, string memory _symbol) ERC721 (_name, _symbol){
         _owner = msg.sender;
         stocksLength = 0;
     }
     
     function addStock(string memory stockId, string memory owner, string memory status, uint price, string memory wallet, uint256 nominalValue)
         
-        public {
+        public returns (uint256){
         stocksLength++;
         stocks[stockId] = Stock(stockId, owner,status, price, wallet, nominalValue);
+        
+        uint256 currentStock = stocksLength;
+
+        //safely mint token for the person that called the function
+        _safeMint(msg.sender, currentStock);
+        
+        _setTokenURI(currentStock, stockId);
+    
+        return currentStock;
+    
     }
     
     

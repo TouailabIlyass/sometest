@@ -90,7 +90,8 @@
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
     "stylelint": "^9.10.1",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.2.0",
+    "truffle-hdwallet-provider": "^1.0.17"
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
